@@ -20,6 +20,8 @@ def EDTA_pH_NaOH(C_EDTA,pH):
         A.append(a)
     S = sum(A) #定义分布系数分母项
     Na = kw/H - H + C_EDTA*(A[3]+2*A[4]+3*A[5]+4*A[6]-A[1]-2*A[0])/S 
+    #离子守恒
+    #[Na+] + [H+] + 2[H6Y2+] + [H5Y+] = [OH-] + [H3Y-] + 2[H2Y2-] + 3[HY3-] + 4[Y4-]
     return(Na)
  #函数简介：
         #本函数是用于计算在给定浓度的EDTA水溶液中达到目标pH所需的NaOH浓度（mol/L）
