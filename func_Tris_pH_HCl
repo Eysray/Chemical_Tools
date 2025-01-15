@@ -1,0 +1,16 @@
+def Tris_pH_HCl(C_Tris,pH):
+    H = 10**(-pH)
+    kw = 10**(-14)
+    pka = 8.1
+    ka = 10**(-pka)
+    C_HCl = H + (H*C_Tris)/(ka+H) - kw/H
+    #离子守恒
+    #[H+] + [HA+] = [OH-] + [Cl-]
+    return(C_HCl)
+#函数简介：
+        #本函数是用于计算在给定浓度的Tris水溶液中达到目标pH所需的HCl浓度（mol/L）
+    #自变量介绍：
+        # C_Tris：Tris浓度（mol/L）
+        # pH：体系最终pH
+    #输出介绍：
+        # C_HCl：在给定的Tris水溶液中达到目标pH所需的HCl浓度（mol/L）
