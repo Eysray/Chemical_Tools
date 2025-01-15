@@ -1,0 +1,51 @@
+# EDTA酸常数
+# pka1 = 0
+# pka2 = 1.5
+# pka3 = 2
+# pka4 = 2.66
+# pka5 = 6.16
+# pka6 = 10.24
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+plt.rcParams['font.sans-serif']=['SimHei']  #用于解决plt.title()无法显示中文的问题
+plt.rcParams['axes.unicode_minus'] = False #用于解决plt.title()无法显示中文的问题
+
+pH =np.arange(0,14,0.000001)
+H = 10**(- pH)
+pka = [0,1.5,2,2.66,6.16,10.24]
+
+ka = [] #将pka转化为ka
+for i in range(6):
+    ka.append(10**(-pka[i]))
+    
+B = [] #定义累积酸常数，输出列表为[1, K1, K1K2, K1K2K3, K1K2K3K4, K1K2K3K4K5, K1K2K3K4K5K6]
+for j in range(7):
+    if j == 0:
+        b = 1
+    if j > 0:
+        b = 1
+        for k in range(j):
+            b = b*ka[k]
+    B.append(b)
+
+A = [] #定义分布系数分子项，输出列表元素分别对应H6Y~Y的分布系数分子项
+for l in range(7):
+    a = B[l]*H**(6-l)
+    A.append(a)
+
+S = sum(A) #定义分布系数分母项
+
+delta_HY = [] #定义分布系数
+for m in range(7):
+    delta_HY.append(A[m]/S)
+    
+for n in range(7):
+    plt.plot(pH,delta_HY[n],label='H{}Y分布系数'.format(6-n))
+
+plt.title('EDTA分布系数')
+plt.xlabel("pH")
+plt.ylabel("delta")
+plt.legend(loc = 5) #右侧显示图例
+plt.show()
