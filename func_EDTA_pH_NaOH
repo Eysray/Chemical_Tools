@@ -1,0 +1,30 @@
+def EDTA_pH_NaOH(C_EDTA,pH):
+    H = 10**(-pH)
+    kw = 10**(-14)
+    pka = [0,1.5,2,2.66,6.16,10.24]
+    ka = [] #将pka转化为ka
+    for i in range(6):
+        ka.append(10**(-pka[i]))  
+    B = [] #定义累积酸常数，输出列表为[1, K1, K1K2, K1K2K3, K1K2K3K4, K1K2K3K4K5, K1K2K3K4K5K6]
+    for j in range(7):
+        if j == 0:
+            b = 1
+        if j > 0:
+            b = 1
+            for k in range(j):
+                b = b*ka[k]
+        B.append(b)
+    A = [] #定义分布系数分子项，输出列表元素分别对应H6Y~Y的分布系数分子项
+    for l in range(7):
+        a = B[l]*H**(6-l)
+        A.append(a)
+    S = sum(A) #定义分布系数分母项
+    Na = kw/H - H + C_EDTA*(A[3]+2*A[4]+3*A[5]+4*A[6]-A[1]-2*A[0])/S 
+    return(Na)
+ #函数简介：
+        #本函数是用于计算在给定浓度的EDTA水溶液中达到目标pH所需的NaOH浓度（mol/L）
+    #自变量介绍：
+        # C_EDTA：EDTA浓度（mol/L）
+        # pH：体系最终pH
+    #输出介绍：
+        # Na：在给定的EDTA水溶液中达到目标pH所需的NaOH浓度（mol/L）
